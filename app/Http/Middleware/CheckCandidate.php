@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Check
+class CheckCandidate
 {
     /**
      * Handle an incoming request.
@@ -15,6 +16,10 @@ class Check
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::check() && Auth::user()->role === 'candidate') {
+            return $next($request);
+        }
+
+        return back()->with('failed', "You don't have permission to access this page");
     }
 }

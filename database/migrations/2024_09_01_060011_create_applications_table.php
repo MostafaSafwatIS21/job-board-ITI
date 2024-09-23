@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('candidate_id')->constrained('candidates')->onDelete('cascade'); // Foreign key to candidates table
-            $table->foreignId('job_id')->constrained('jobs')->onDelete('cascade'); // Foreign key to jobs table
+            $table->foreignId('job_id')->constrained('posts')->onDelete('cascade'); // Foreign key to jobs table
             $table->enum('status', ['applied', 'accepted', 'rejected'])->default('applied');
             $table->text('cover_letter')->nullable();
             $table->timestamps();
+
         });
     }
 

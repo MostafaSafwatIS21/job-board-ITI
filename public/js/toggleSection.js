@@ -62,4 +62,10 @@ function toggleCode(codeToShowId, codeToHideId) {
     codeToHide.classList.add('hidden');
 }
 
+function togglecode1() {
+    console.log("togglecode1 triggered");
+    var form = document.getElementById("formcode1");
+    form.classList.toggle("hidden");
+}
+
 

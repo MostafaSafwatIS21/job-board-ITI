@@ -38,7 +38,15 @@ class EmployerController extends Controller
         return view('employer.employer', compact('employers'));
     }
 
-    public function detail(Request $request) {}
+    public function detail($userId)
+    {
+        $employer = Employer::find($userId)->get()->first();
+        if (! $employer) {
+            return redirect('/employers')->with('filed', "can't find employer");
+        }
+
+        return view('employer.details', compact('employer'));
+    }
 
     public function update(Request $request, $userId)
     {
@@ -91,7 +99,7 @@ class EmployerController extends Controller
 
         $employer->update($data);
 
-        return view('employer.employer');
+        return back()->with('success', 'Updated Successfully');
     }
 
     // will move to posts controller.

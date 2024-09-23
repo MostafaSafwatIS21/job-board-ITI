@@ -116,4 +116,6 @@ class CandidateController extends Controller
         // Remove the dump (dd) once you're sure it's working
         return back()->with('success', 'Updated Successfully');
     }
+
+    public function detail() {}
 }

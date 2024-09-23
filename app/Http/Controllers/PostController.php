@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Candidate;
 use App\Models\Employer;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -84,7 +86,23 @@ class PostController extends Controller
         return view('job-post.job-post', compact('jobs'));
     }
 
-    public function detail($id) {}
+    public function detail($postId)
+    {
+
+        $post = Post::with('user')->where('id', $postId)->first();
+        if (! $post) {
+            return redirect('find-jobs')->with('failed', 'Post not found');
+        }
+        $candidate = Candidate::where('user_id', Auth::user()->id)->first();
+        $apply = [];
+        if (Auth::user()->role === 'candidate') {
+            $apply = Application::where('job_id', $postId)
+                ->where('candidate_id', $candidate->id)
+                ->first();
+        }
+
+        return view('job-post.details', compact('post', 'apply', 'candidate'));
+    }
 
     public function createJob(Request $request)
     {
@@ -94,6 +112,7 @@ class PostController extends Controller
         if (! $employer) {
             return back()->with('failed', 'Employer not found.');
         }
+        //        dd($request);
 
         $request->validate([
             //            'employer_id' => 'required|exists:employers,id', // Ensure employer exists in the 'employers' table
@@ -120,10 +139,11 @@ class PostController extends Controller
             'keywords' => 'nullable|array',
             'experience_level' => [
                 'required',
-                'string', 'in:Junior, Mid, Senior, Lead',
+                'string',
+                'in:Junior,Mid,Senior,Lead',
             ],
+
         ]);
-        //        dd($request);
         $jobPost = Post::create([
             'employer_id' => $employer->id, // Employer ID linked to the job post
             'job_title' => $request->input('job_title'),
@@ -139,5 +159,22 @@ class PostController extends Controller
         ]);
 
         return back()->with('success', 'Job created successfully.');
+    }
+
+    public function delete($id)
+    {
+        $post = Post::find($id);
+        if (! $post) {
+            return back()->with('failed', 'Post not found.');
+        }
+        //
+        $employerId = Employer::where('user_id', Auth::user()->id)->first()->id;
+
+        if ($employerId !== $post->employer_id) {
+            return back()->with('failed', 'You are not allowed to delete this post.');
+        }
+        $post->delete();
+
+        return back()->with('success', 'Post deleted successfully.');
     }
 }

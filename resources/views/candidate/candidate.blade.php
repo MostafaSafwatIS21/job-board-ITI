@@ -288,7 +288,7 @@
                                                                 <div
                                                                     class="u-clearfix u-group-elements u-group-elements-1 align-items-center justify-content-center">
 
-                                                                    <a href="{{route('employer.details',$candidate->id)}}"
+                                                                    <a href="{{route('candidate.details',$candidate->id)}}"
                                                                        class="text-black u-border-hover-grey-15">
                                                                         <h6 class="u-text u-text-default u-text-11"> {{$candidate->user->name}}
                                                                             &nbsp;
@@ -301,7 +301,7 @@
                                                                     </a>
 
                                                                 </div>
-                                                                <a href="{{route('employer.details',$candidate->id)}}"
+                                                                <a href="{{route('candidate.details',$candidate->id)}}"
                                                                    class="u-border-none u-btn u-btn-round u-button-style u-hover-feature u-hover-palette-3-base u-radius u-text-hover-white u-text-palette-3-base u-white u-btn-14">
                                                                     View Profile</a>
                                                             </div>

@@ -80,126 +80,7 @@
                     <div class="u-layout-row">
                         <div
                             class="u-container-style u-layout-cell u-size-47-md u-size-47-sm u-size-47-xs u-size-49-lg u-size-49-xl u-size-49-xxl u-layout-cell-1">
-                            @if(Auth::user()->role==='employer')
-                                {{--                                Emp--}}
-                                <div
-                                    class="table-responsive shadow-lg rounded    u-hover-feature  u-shape-round u-white u-group-2 animated customAnimationIn-played"
-                                    data-animation-name="customAnimationIn" data-animation-duration="1000"
-                                    data-animation-delay="0"
-                                    style="will-change: transform, opacity; animation-duration: 1000ms;">
-                                    <div class="d-md-flex justify-content-between align-items-center mb-4">
-                                        <!-- Dropdown -->
-                                        <div class="dropdown mb-3 mb-md-0">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12"
-                                                     height="12" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                                                </svg>
-                                                Last 30 days
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item" href="#">Last day</a></li>
-                                                <li><a class="dropdown-item" href="#">Last 7 days</a></li>
-                                                <li><a class="dropdown-item" href="#">Last 30 days</a></li>
-                                                <li><a class="dropdown-item" href="#">Last month</a></li>
-                                                <li><a class="dropdown-item" href="#">Last year</a></li>
-                                            </ul>
-                                        </div>
-
-                                        <!-- Search Bar -->
-                                        <div class="position-relative">
-                                            <input type="search" class="form-control ps-5"
-                                                   placeholder="Search for items" id="table-search">
-                                            <svg class="position-absolute top-50 start-0 translate-middle-y ms-3"
-                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                      clip-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-
-                                    <!-- Table -->
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="table-light">
-                                        <tr>
-                                            <th scope="col">
-                                                id
-                                            </th>
-                                            <th scope="col">Job Title</th>
-                                            <th scope="col">location</th>
-                                            <th scope="col">Work Type</th>
-                                            <th scope="col">Salary range</th>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">Candidate Name</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Settings</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        @foreach($applied_posts as $application)
-                                            <tr>
-                                                <td>{{$application->id}}</td>
-                                                <td>{{$application->post->job_title}}</td>
-                                                <td>{{$application->post->location}}"</td>
-                                                <td>{{$application->post->work_type}}</td>
-                                                <td>{{$application->post->salary_range}}$</td>
-                                                <td>{{$application->post->job_category}}</td>
-                                                <td>{{$application->candidate->job_title}}</td>
-                                                <td>{{$application->status}}</td>
-
-                                                <td>
-                                                    <div class="btn-group dropend">
-                                                        <button type="button"
-                                                                class="btn btn-success dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                            Dropend
-                                                        </button>
-
-                                                        <ul class="dropdown-menu ">
-                                                            <li>
-                                                                <a class="dropdown-item"
-                                                                   href="{{route("job.details",$application->post->id)}}">view
-                                                                    post</a>
-                                                            </li>
-                                                            @if($application->status==="applied")
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{ route('apply.approve', ['applyId' => $application->id, 'candidateId' => $application->candidate->id]) }}">Approved
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{ route('apply.reject', ['applyId' => $application->id, 'candidateId' => $application->candidate->id]) }}">Rejected
-                                                                    </a>
-                                                                </li>
-                                                            @elseif($application->status==="accepted")
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{ route('apply.reject', ['applyId' => $application->id, 'candidateId' => $application->candidate->id]) }}">Rejected
-                                                                    </a>
-                                                                </li>
-                                                            @elseif($application->status==="rejected")
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{ route('apply.approve', ['applyId' => $application->id, 'candidateId' => $application->candidate->id]) }}">Approved
-                                                                    </a>
-                                                                </li>
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @endif
+                            <h1>Dashboard</h1>
 
                         </div>
                         <div
@@ -261,7 +142,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-13">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-21">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}}
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
                                                     ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-10"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
@@ -274,7 +155,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-14">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-22">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-11"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>
@@ -310,7 +191,7 @@
                                 {{--  {{$route = Auth::user()->role}}--}}
                                 @if(Auth::user()->role ==='employer')
                                     <form class="mb-3" method="POST"
-                                          action="{{route(Auth::user()->role.'.update',Auth::user()->id)}}"
+                                          action=""
                                           enctype="multipart/form-data">
                                         @method('PUT')
                                         @csrf
@@ -461,9 +342,8 @@
                                         </div>
                                     </form>
                                 @else
-                                    {{--  2--}}
                                     <form class="mb-3" method="POST"
-                                          action="{{route(Auth::user()->role.'.update',Auth::user()->id)}}"
+                                          action="{{route("admin.update")}}"
                                           enctype="multipart/form-data">
                                         @method('PUT')
                                         @csrf
@@ -480,10 +360,11 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="job_title" class="form-label">job Title</label>
-                                                <input id="job_title" name="job_title" type="text"
-                                                       class="form-control @error('job_title') is-invalid @enderror">
-                                                @error('job_title')
+                                                <label for="phone" class="form-label">Phone Number</label>
+                                                <input id="phone" name="phone" type="text"
+                                                       placeholder="{{ Auth::user()->phone}}"
+                                                       class="form-control @error('phone') is-invalid @enderror">
+                                                @error('phone')
                                                 <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -492,163 +373,15 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="resume" class="form-label">Resume</label>
-                                                <input id="resume" name="resume" type="file"
-                                                       class="form-control @error('resume') is-invalid @enderror">
-                                                @error('resume')
+                                                <label for="avatar" class="form-label">Avatar</label>
+                                                <input id="avatar" name="avatar" type="file"
+                                                       class="form-control @error('avatar') is-invalid @enderror">
+                                                @error('avatar')
                                                 <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                                 @enderror
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="skills" class="form-label">Skills</label>
-                                                <input type="text" id="skills" name="skills[]" data-role="tagsinput"
-                                                       class="form-control @error('skills') is-invalid @enderror"
-                                                       value="{{ old('skills') ? implode(',', old('skills')) : implode(',', $skills ?? []) }}">
-                                                @error('skills')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="experience_level" class="form-label">Experience
-                                                    Level</label>
-                                                <select id="experience_level" name="experience_level"
-                                                        class="form-control @error('experience_level') is-invalid @enderror">
-                                                    <option value="">Select a Level</option>
-                                                    @foreach ([
-                                                       'Entry', 'Mid', 'Senior'
-                                                    ] as $level)
-                                                        <option
-                                                            value="{{ $level }}" {{ old('experience_level') == $level ? 'selected' : '' }}>
-                                                            {{ $level }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('experience_level')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-
-                                            <div class="col-md-6 mb-3">
-                                                <label for="experience_time" class="form-label">Location</label>
-                                                <select id="experience_time" name="experience_time"
-                                                        class="form-control @error('experience_time') is-invalid @enderror">
-                                                    <option value="">Select a Time</option>
-                                                    @foreach (['1 Year', '2 Year', '3 Year', '4 Year', 'fresh'
-                                                        ] as $time)
-                                                        <option
-                                                            value="{{ $time }}" {{ old('experience_time') == $time ? 'selected' : '' }}>
-                                                            {{ $time }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('experience_time')
-                                                <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-    </span>
-                                                @enderror
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="categories" class="form-label">Categories</label>
-                                                <select id="categories" name="categories"
-                                                        class="form-control @error('categories') is-invalid @enderror">
-                                                    <option value="">Select a category</option>
-                                                    @foreach ([
-                                                        'Information Technology',
-                                                        'Healthcare',
-                                                        'Finance',
-                                                        'Education',
-                                                        'Manufacturing',
-                                                        'Retail',
-                                                        'Transportation',
-                                                        'Hospitality',
-                                                        'Construction',
-                                                        'Real Estate',
-                                                        'Telecommunications',
-                                                        'Agriculture',
-                                                        'Energy',
-                                                        'Entertainment',
-                                                        'Legal Services',
-                                                        'Marketing and Advertising',
-                                                        'Non-Profit',
-                                                        'Public Sector',
-                                                        'Professional Services',
-                                                        'Consulting',
-                                                        'Media',
-                                                        'Automotive',
-                                                        'Pharmaceuticals',
-                                                        'Aerospace',
-                                                        'Environmental Services',
-                                                        'Logistics and Supply Chain',
-                                                        'Human Resources',
-                                                        'E-commerce',
-                                                        'Food and Beverage',
-                                                        'Sports and Recreation',
-                                                    ] as $category)
-                                                        <option
-                                                            value="{{ $category }}" {{ old('categories') == $category ? 'selected' : '' }}>
-                                                            {{ $category }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('categories')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-
-                                            <div class="col-md-6 mb-3">
-                                                <label for="location" class="form-label">Location</label>
-                                                <select id="location" name="location"
-                                                        class="form-control @error('location') is-invalid @enderror">
-                                                    <option value="">Select a location</option>
-                                                    @foreach ([
-                                                        'Cairo', 'Alexandria', 'Giza', 'Port Said', 'Suez', 'Luxor', 'Aswan', 'Asyut',
-                                                        'Beheira', 'Beni Suef', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Ismailia',
-                                                        'Kafr El Sheikh', 'Minya', 'Monufia', 'New Valley', 'Qalyubia', 'Qena', 'Red Sea',
-                                                        'Sharqia', 'Sohag', 'South Sinai', 'North Sinai', 'Matrouh'
-                                                    ] as $location)
-                                                        <option
-                                                            value="{{ $location }}" {{ old('location') == $location ? 'selected' : '' }}>
-                                                            {{ $location }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('location')
-                                                <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-    </span>
-                                                @enderror
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3 w-100">
-                                                <label for="description" class="form-label">
-                                                    Description</label>
-                                                <textarea id="description" name="description"
-                                                          autocomplete=""
-                                                          class="form-control @error('description') is-invalid @enderror h-100 mb-4"></textarea>
-
-                                                @error('description')
-                                                <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                                @enderror
-                                            </div>
-
                                         </div>
                                         <div class="d-flex justify-content-center m-5">
                                             <button type="submit" class="btn btn-primary w-25 fs-3 mx-auto">Save
@@ -718,7 +451,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-16">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-15">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}}
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
                                                     ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-13"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
@@ -731,7 +464,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-17">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-16">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-14"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>
@@ -887,7 +620,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-13">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-21">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}}
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
                                                     ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-10"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
@@ -900,7 +633,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-14">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-22">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-11"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>
@@ -1031,7 +764,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-13">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-21">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}}
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
                                                     ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-9"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
@@ -1044,7 +777,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-14">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-22">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-10"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>
@@ -1077,331 +810,108 @@
                         <div
                             class="u-container-style u-layout-cell u-size-47-md u-size-47-sm u-size-47-xs u-size-49-lg u-size-49-xl u-size-49-xxl u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
-                                {{--                                mostafa--}}
-                                @if(Auth::user()->role==='employer')
-                                    <div
-                                        class="u-container-style u-layout-cell u-size-47-md u-size-47-sm u-size-47-xs u-size-49-lg u-size-49-xl u-size-49-xxl u-layout-cell-1">
-                                        <div class="mx-auto w-100" style="max-width: 70%;">
-                                            <h1 class="fs-2">Job Post</h1>
+                                {{--                                users--}}
 
-                                            <form class="mb-3" method="POST"
-                                                  action="{{route('create.job')}}"
-                                                  enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="job_title" class="form-label">Job Title</label>
-                                                        <input id="job_title" name="job_title" type="text"
-                                                               autocomplete="name"
-                                                               class="form-control @error('job_title') is-invalid @enderror"
-                                                               value="{{ old('job_title') }}">
-                                                        @error('job_title')
-                                                        <span class="invalid-feedback" role="alert">
-                                                             <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="salary_range" class="form-label">Salary Range
-                                                            $</label>
-                                                        <input id="salary_range" name="salary_range" type="number"
-                                                               autocomplete=""
-                                                               class="form-control @error('salary_range') is-invalid @enderror"
-                                                               value="{{ old('salary_range') }}">
-                                                        @error('salary_range')
-                                                        <span class="invalid-feedback" role="alert">
-                                                                <strong>{{ $message }}</strong>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
 
-                                                    {{--requirements--}}
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="requirements"
-                                                               class="form-label">Requirements </label>
-                                                        <input type="text" id="requirements" name="requirements[]"
-                                                               data-role="tagsinput"
-                                                               class="form-control @error('requirements') is-invalid @enderror"
-                                                               value="{{ old('requirements') ? implode(',', old('requirements')) : implode(',', $keywords ?? []) }}">
-                                                        @error('requirements')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="keywords" class="form-label">Keywords </label>
-                                                        <input type="text" id="keywords" name="keywords[]"
-                                                               data-role="tagsinput"
-                                                               class="form-control @error('keywords') is-invalid @enderror"
-                                                               value="{{ old('keywords') ? implode(',', old('keywords')) : implode(',', $keywords ?? []) }}">
-                                                        @error('keywords')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="work_type"
-                                                               class="form-label">Type</label>
-                                                        <select id="work_type" name="work_type"
-                                                                class="form-control @error('work_type') is-invalid @enderror">
-                                                            <option value="">Select a category</option>
-                                                            @foreach ([
-                                                               'Full-time', 'Part-time', 'Remote', 'Contract'
-                                                            ] as $type)
-                                                                <option
-                                                                    value="{{ $type }}" {{ old('work_type') == $type ? 'selected' : '' }}>
-                                                                    {{ $type }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('work_type')
-                                                        <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="location" class="form-label">Location</label>
-                                                        <select id="location" name="location"
-                                                                class="form-control @error('location') is-invalid @enderror">
-                                                            <option value="">Select a location</option>
-                                                            @foreach ([
-                                                                'Cairo', 'Alexandria', 'Giza', 'Port Said', 'Suez', 'Luxor', 'Aswan', 'Asyut',
-                                                                'Beheira', 'Beni Suef', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Ismailia',
-                                                                'Kafr El Sheikh', 'Minya', 'Monufia', 'New Valley', 'Qalyubia', 'Qena', 'Red Sea',
-                                                                'Sharqia', 'Sohag', 'South Sinai', 'North Sinai', 'Matrouh'
-                                                            ] as $location)
-                                                                <option
-                                                                    value="{{ $location }}" {{ old('location') == $location ? 'selected' : '' }}>
-                                                                    {{ $location }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('location')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="application_deadline" class="form-label">Deadline
-                                                        </label>
-                                                        <input id="application_deadline" name="application_deadline"
-                                                               type="date"
-                                                               autocomplete=""
-                                                               class="form-control @error('application_deadline') is-invalid @enderror"
-                                                               value="{{ old('application_deadline') }}">
-                                                        @error('application_deadline')
-                                                        <span class="invalid-feedback" role="alert">
-                                                                <strong>{{ $message }}</strong>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="job_category" class="form-label">Location</label>
-                                                        <select id="job_category" name="job_category"
-                                                                class="form-control @error('job_category') is-invalid @enderror">
-                                                            <option value="">Select a job category</option>
-                                                            @foreach ([
-                                                                'Information Technology',
-                                                                'Healthcare',
-                                                                'Finance',
-                                                                'Education',
-                                                                'Manufacturing',
-                                                                'Retail',
-                                                                'Transportation',
-                                                                'Hospitality',
-                                                                'Construction',
-                                                                'Real Estate',
-                                                                'Telecommunications',
-                                                                'Agriculture',
-                                                                'Energy',
-                                                                'Entertainment',
-                                                                'Legal Services',
-                                                                'Marketing and Advertising',
-                                                                'Non-Profit',
-                                                                'Public Sector',
-                                                                'Professional Services',
-                                                                'Consulting',
-                                                                'Media',
-                                                                'Automotive',
-                                                                'Pharmaceuticals',
-                                                                'Aerospace',
-                                                                'Environmental Services',
-                                                                'Logistics and Supply Chain',
-                                                                'Human Resources',
-                                                                'E-commerce',
-                                                                'Food and Beverage',
-                                                                'Sports and Recreation',
-                                                            ] as $category)
-                                                                <option
-                                                                    value="{{ $category }}" {{ old('job_category') == $category ? 'selected' : '' }}>
-                                                                    {{ $category }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('job_category')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="experience_level" class="form-label">Experience
-                                                            Level</label>
-                                                        <select id="experience_level" name="experience_level"
-                                                                class="form-control @error('experience_level') is-invalid @enderror">
-                                                            <option value="">Select a Level</option>
-                                                            @foreach ([
-                                                                'Junior', 'Mid', 'Senior', 'Lead'
-                                                            ] as $experience_level)
-                                                                <option
-                                                                    value="{{ $experience_level }}" {{ old('experience_level') == $experience_level ? 'selected' : '' }}>
-                                                                    {{ $experience_level }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('experience_level')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3 w-100">
-                                                        <label for="job_description" class="form-label">
-                                                            Description</label>
-                                                        <textarea id="job_description" name="job_description"
-                                                                  autocomplete=""
-                                                                  class="form-control @error('job_description') is-invalid @enderror h-100 mb-4"></textarea>
-
-                                                        @error('job_description')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-
-                                                </div>
-                                                <div class="d-flex justify-content-center m-5">
-                                                    <button type="submit" class="btn btn-primary w-25 fs-3 mx-auto">
-                                                        Save
-                                                    </button>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                    </div>
-
-                                @elseif(Auth::user()->role==='candidate')
-                                    <div
-                                        class="table-responsive shadow-lg rounded    u-hover-feature  u-shape-round u-white u-group-2 animated customAnimationIn-played"
-                                        data-animation-name="customAnimationIn" data-animation-duration="1000"
-                                        data-animation-delay="0"
-                                        style="will-change: transform, opacity; animation-duration: 1000ms;">
-                                        <div class="d-md-flex justify-content-between align-items-center mb-4">
-                                            <!-- Dropdown -->
-                                            <div class="dropdown mb-3 mb-md-0">
-                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                    <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12"
-                                                         height="12" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                                                    </svg>
-                                                    Last 30 days
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a class="dropdown-item" href="#">Last day</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last 7 days</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last 30 days</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last month</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last year</a></li>
-                                                </ul>
-                                            </div>
-
-                                            <!-- Search Bar -->
-                                            <div class="position-relative">
-                                                <input type="search" class="form-control ps-5"
-                                                       placeholder="Search for items" id="table-search">
-                                                <svg class="position-absolute top-50 start-0 translate-middle-y ms-3"
-                                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                          clip-rule="evenodd"></path>
+                                <div
+                                    class="table-responsive shadow-lg rounded    u-hover-feature  u-shape-round u-white u-group-2 animated customAnimationIn-played"
+                                    data-animation-name="customAnimationIn" data-animation-duration="1000"
+                                    data-animation-delay="0"
+                                    style="will-change: transform, opacity; animation-duration: 1000ms;">
+                                    <div class="d-md-flex justify-content-between align-items-center mb-4">
+                                        <!-- Dropdown -->
+                                        <div class="dropdown mb-3 mb-md-0">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12"
+                                                     height="12" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
                                                 </svg>
-                                            </div>
+                                                Last 30 days
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#">Last day</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 7 days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 30 days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last month</a></li>
+                                                <li><a class="dropdown-item" href="#">Last year</a></li>
+                                            </ul>
                                         </div>
 
-                                        <!-- Table -->
-                                        <table class="table table-bordered table-hover">
-                                            <thead class="table-light">
-                                            <tr>
-                                                <th scope="col">
-                                                    id
-                                                </th>
-                                                <th scope="col">Job Title</th>
-                                                <th scope="col">location</th>
-                                                <th scope="col">Work Type</th>
-                                                <th scope="col">Salary range</th>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Settings</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            @foreach($applications as $application)
-                                                <tr>
-                                                    <td>{{$application->id}}</td>
-                                                    <td>{{$application->post->job_title}}</td>
-                                                    <td>{{$application->post->location}}"</td>
-                                                    <td>{{$application->post->work_type}}</td>
-                                                    <td>{{$application->post->salary_range}}$</td>
-                                                    <td>{{$application->post->job_category}}</td>
-                                                    <td>{{$application->status}}</td>
-
-                                                    <td>
-                                                        <div class="btn-group dropend">
-                                                            <button type="button"
-                                                                    class="btn btn-success dropdown-toggle"
-                                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Dropend
-                                                            </button>
-
-                                                            <ul class="dropdown-menu ">
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{route("job.details",$application->post->id)}}">view
-                                                                        post</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       {{--                                                                       href="{{route("job.delete",$application->post->id}}">delete--}}
-                                                                       post</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
+                                        <!-- Search Bar -->
+                                        <div class="position-relative">
+                                            <input type="search" class="form-control ps-5"
+                                                   placeholder="Search for items" id="table-search">
+                                            <svg class="position-absolute top-50 start-0 translate-middle-y ms-3"
+                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
                                     </div>
-                                @endif
+
+                                    <!-- Table -->
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">
+                                                id
+                                            </th>
+                                            <th scope="col">User name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Settings</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{--                                        --}}
+                                        @foreach($users as $user)
+                                            <tr>
+                                                <td>{{$user->id}}</td>
+                                                <td>{{$user->name}}"</td>
+                                                <td>{{$user->email}}</td>
+                                                <td>{{$user->role}}</td>
+                                                <td>{{$user->phone}}</td>
+
+                                                <td>
+                                                    <div class="btn-group dropend">
+                                                        <button type="button" class="btn btn-success dropdown-toggle"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Dropend
+                                                        </button>
+
+                                                        <ul class="dropdown-menu ">
+                                                            <form action="{{route("employer.details",$user->id)}}"
+                                                                  method="get">
+                                                                @csrf
+                                                                <li>
+                                                                    <button class="dropdown-item "
+                                                                            href="">Review
+                                                                    </button>
+                                                            </form>
+
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                   href="{{route("set.admin",$user->id)}}">{{$user->role==='admin'? "Remove Admin" : "Set Admin" }}</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                   href="{{route("delete.user",$user->id)}}">Delete
+                                                                    User</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
                             </div>
                         </div>
                         <div
@@ -1411,7 +921,8 @@
                                     <div class="u-repeater u-repeater-2">
                                         <div onclick="toggleSection(1)" style="cursor: pointer;"
                                              class="u-container-align-right u-container-style u-custom-item u-hover-feature u-list-item u-radius u-repeater-item u-shape-rectangle u-list-item-5">
-                                            <div class="u-container-layout u-similar-container u-container-layout-9">
+                                            <div
+                                                class="u-container-layout u-similar-container u-container-layout-9">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-17">
                                                     {{ Auth::user()->role === 'admin' ? 'Admin Dashboard' : 'User Dashboard' }}
@@ -1424,7 +935,8 @@
                                         </div>
                                         <div onclick="toggleSection(2)" style="cursor: pointer;"
                                              class="u-container-align-right u-container-style u-custom-item u-hover-feature u-list-item u-radius u-repeater-item u-shape-round u-list-item-6">
-                                            <div class="u-container-layout u-similar-container u-container-layout-10">
+                                            <div
+                                                class="u-container-layout u-similar-container u-container-layout-10">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-18">
                                                     Edit Profile&nbsp;<span
@@ -1436,7 +948,8 @@
                                         </div>
                                         <div onclick="toggleSection(3)" style="cursor: pointer;"
                                              class="u-container-align-right u-container-style u-custom-item u-hover-feature u-list-item u-radius u-repeater-item u-shape-rectangle u-list-item-7">
-                                            <div class="u-container-layout u-similar-container u-container-layout-11">
+                                            <div
+                                                class="u-container-layout u-similar-container u-container-layout-11">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-19">
                                                     Change Password &nbsp;<span
@@ -1448,7 +961,8 @@
                                         </div>
                                         <div onclick="toggleSection(4)" style="cursor: pointer;"
                                              class="u-container-align-right u-container-style u-custom-item u-hover-feature u-list-item u-radius u-repeater-item u-shape-rectangle u-list-item-8">
-                                            <div class="u-container-layout u-similar-container u-container-layout-12">
+                                            <div
+                                                class="u-container-layout u-similar-container u-container-layout-12">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-20">
                                                     Delete Profile​&nbsp;<span
@@ -1465,7 +979,8 @@
                                                 class="u-container-layout u-similar-container u-container-layout-13">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-21">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}} ​&nbsp;<span
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
+                                                    ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-9"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
                                                             alt=""></span>
@@ -1479,7 +994,7 @@
                                                 class="u-container-layout u-similar-container u-container-layout-14">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-22">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-10"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>
@@ -1510,107 +1025,131 @@
                         <div
                             class="u-container-style u-layout-cell u-size-47-md u-size-47-sm u-size-47-xs u-size-49-lg u-size-49-xl u-size-49-xxl u-layout-cell-1">
                             <div class="u-container-layout u-container-layout-1">
-                                @if(Auth::user()->role==='employer')
-                                    <div
-                                        class="table-responsive shadow-lg rounded    u-hover-feature  u-shape-round u-white u-group-2 animated customAnimationIn-played"
-                                        data-animation-name="customAnimationIn" data-animation-duration="1000"
-                                        data-animation-delay="0"
-                                        style="will-change: transform, opacity; animation-duration: 1000ms;">
-                                        <div class="d-md-flex justify-content-between align-items-center mb-4">
-                                            <!-- Dropdown -->
-                                            <div class="dropdown mb-3 mb-md-0">
-                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                    <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12"
-                                                         height="12" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                                                    </svg>
-                                                    Last 30 days
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a class="dropdown-item" href="#">Last day</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last 7 days</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last 30 days</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last month</a></li>
-                                                    <li><a class="dropdown-item" href="#">Last year</a></li>
-                                                </ul>
-                                            </div>
-
-                                            <!-- Search Bar -->
-                                            <div class="position-relative">
-                                                <input type="search" class="form-control ps-5"
-                                                       placeholder="Search for items" id="table-search">
-                                                <svg class="position-absolute top-50 start-0 translate-middle-y ms-3"
-                                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                          clip-rule="evenodd"></path>
+                                <div
+                                    class="table-responsive shadow-lg rounded    u-hover-feature  u-shape-round u-white u-group-2 animated customAnimationIn-played"
+                                    data-animation-name="customAnimationIn" data-animation-duration="1000"
+                                    data-animation-delay="0"
+                                    style="will-change: transform, opacity; animation-duration: 1000ms;">
+                                    <div class="d-md-flex justify-content-between align-items-center mb-4">
+                                        <!-- Dropdown -->
+                                        <div class="dropdown mb-3 mb-md-0">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12"
+                                                     height="12" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
                                                 </svg>
-                                            </div>
+                                                Last 30 days
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="#">Last day</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 7 days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 30 days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last month</a></li>
+                                                <li><a class="dropdown-item" href="#">Last year</a></li>
+                                            </ul>
                                         </div>
 
-                                        <!-- Table -->
-                                        <table class="table table-bordered table-hover">
-                                            <thead class="table-light">
-                                            <tr>
-                                                <th scope="col">
-                                                    id
-                                                </th>
-                                                <th scope="col">Job Title</th>
-                                                <th scope="col">location</th>
-                                                <th scope="col">Work Type</th>
-                                                <th scope="col">Salary range</th>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Post Creator</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Settings</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            @foreach($posts as $post)
-                                                <tr>
-                                                    <td>{{$post->id}}</td>
-                                                    <td>{{$post->job_title}}</td>
-                                                    <td>{{$post->location}}"</td>
-                                                    <td>{{$post->work_type}}</td>
-                                                    <td>{{$post->salary_range}}$</td>
-                                                    <td>{{$post->job_category}}</td>
-                                                    <td>{{$post->user->company_name}}</td>
-                                                    <td>{{$post->status}}</td>
-
-                                                    <td>
-                                                        <div class="btn-group dropend">
-                                                            <button type="button"
-                                                                    class="btn btn-success dropdown-toggle"
-                                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Dropend
-                                                            </button>
-
-                                                            <ul class="dropdown-menu ">
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{route("job.details",$post->id)}}">view
-                                                                        post</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{route("job.delete",$post->id)}}">delete
-                                                                        post</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
+                                        <!-- Search Bar -->
+                                        <div class="position-relative">
+                                            <input type="search" class="form-control ps-5"
+                                                   placeholder="Search for items" id="table-search">
+                                            <svg class="position-absolute top-50 start-0 translate-middle-y ms-3"
+                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
                                     </div>
-                                @endif
 
+                                    <!-- Table -->
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">
+                                                id
+                                            </th>
+                                            <th scope="col">Job Title</th>
+                                            <th scope="col">location</th>
+                                            <th scope="col">Work Type</th>
+                                            <th scope="col">Salary range</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Post Creator</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Settings</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{--                                        --}}
+                                        @foreach($posts as $post)
+                                            <tr>
+                                                <td>{{$post->id}}</td>
+                                                <td>{{$post->job_title}}</td>
+                                                <td>{{$post->location}}"</td>
+                                                <td>{{$post->work_type}}</td>
+                                                <td>{{$post->salary_range}}$</td>
+                                                <td>{{$post->job_category}}</td>
+                                                <td>{{$post->user->company_name}}</td>
+                                                <td>{{$post->status}}</td>
+
+                                                <td>
+                                                    <div class="btn-group dropend">
+                                                        <button type="button" class="btn btn-success dropdown-toggle"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Dropend
+                                                        </button>
+
+                                                        <ul class="dropdown-menu ">
+                                                            @if($post->status==="pending")
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route("status.reject",$post->id)}}">
+                                                                        Rejected
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route("status.approve",$post->id)}}">
+                                                                        Approve
+                                                                    </a>
+                                                                </li>
+                                                            @elseif($post->status==="approved")
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route("status.reject",$post->id)}}">
+                                                                        Rejected
+                                                                    </a>
+                                                                </li>FUs
+                                                            @elseif($post->status==="rejected")
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route("status.approve",$post->id)}}">
+                                                                        Approve
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="{{route("job.details",$post->id)}}">view
+                                                                    post</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="{{route("delete.post",$post->id)}}">Delete
+                                                                    post</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div
@@ -1682,7 +1221,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-13">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-21">
-                                                    {{Auth::user()->role==='employer'?"job post" :"my applied"}}
+                                                    {{Auth::user()->role==='employer'?"job post" :"Users"}}
                                                     ​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-10"><img
                                                             src="{{ Storage::url('images/3650317-11f1865c.png') }}"
@@ -1697,7 +1236,7 @@
                                             <div class="u-container-layout u-similar-container u-container-layout-14">
                                                 <h6
                                                     class="u-align-right u-text u-text-body-alt-color u-text-default u-text-22">
-                                                    my posts​&nbsp;<span
+                                                    Job Posts​&nbsp;<span
                                                         class="u-file-icon u-icon u-text-white u-icon-11"><img
                                                             src="{{ Storage::url('images/3867237-82c8a9c1.png') }}"
                                                             alt=""></span>

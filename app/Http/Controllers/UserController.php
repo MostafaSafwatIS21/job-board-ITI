@@ -46,7 +46,12 @@ class UserController extends Controller
             return redirect('/')->with('success', 'Your account has been deleted successfully.');
         }
 
-        return redirect()->back()->withErrors(['error' => 'User not found.']);
+        return redirect()->back()->with('failed', 'User not found.');
 
+    }
+
+    public function detail($id)
+    {
+        dd(User::find($id));
     }
 }

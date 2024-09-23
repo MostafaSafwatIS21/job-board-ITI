@@ -17,6 +17,6 @@ class CheckEmployerRole
             return $next($request);
         }
 
-        return redirect('/')->withErrors('You do not have access to this section.');
+        return redirect('/')->with('failed', 'You do not have access to this section.');
     }
 }
